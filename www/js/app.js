@@ -44,7 +44,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     url: '/rencontres',
     views: {
       'menuContent': {
-        templateUrl: 'templates/rencontres.html'
+        templateUrl: 'templates/rencontres.html',
+        controller: 'RencontresCtrl'
       }
     }
   })

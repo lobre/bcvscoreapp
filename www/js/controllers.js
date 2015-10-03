@@ -41,16 +41,25 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
+.controller('RencontresCtrl', function($scope, $ionicLoading, $q, $http) {
+  url_divisions = "https://bcvscore.herokuapp.com/api/divisions/";
+  url_equipes = "https://bcvscore.herokuapp.com/api/equipes/";
+  url_rencontres = "https://bcvscore.herokuapp.com/api/rencontres/";
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+  $ionicLoading.show({
+      template: '<ion-spinner></ion-spinner>'
+  });
+
+  var promises = [];
+  promises.push($http.get(url_divisions));
+  promises.push($http.get(url_equipes));
+  promises.push($http.get(url_rencontres));
+
+  $q.all(promises).then(function(values) {
+      $ionicLoading.hide();
+      $scope.divisions = values[0].data;
+      $scope.equipes = values[1].data;
+      $scope.rencontres = values[2].data;
+      console.log($scope.divisions);
+  });
 });
